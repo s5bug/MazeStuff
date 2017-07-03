@@ -1,7 +1,7 @@
 package com.tsunderebug.mazestuff.cells;
 
 import com.tsunderebug.mazestuff.Cell;
-import com.tsunderebug.mazestuff.mazes.HexagonalCellMaze;
+import com.tsunderebug.mazestuff.mazes.hex.HexagonalCellMaze;
 
 import java.util.ArrayList;
 import java.util.Arrays;

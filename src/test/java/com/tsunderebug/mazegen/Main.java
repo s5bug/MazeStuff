@@ -1,8 +1,7 @@
 package com.tsunderebug.mazegen;
 
 import com.tsunderebug.mazestuff.algorithms.RecursiveBacktracker;
-import com.tsunderebug.mazestuff.mazes.HexagonalCellMaze;
-import com.tsunderebug.mazestuff.mazes.RectangularHexagonalCellMaze;
+import com.tsunderebug.mazestuff.mazes.hex.RectangularHexagonalCellMaze;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

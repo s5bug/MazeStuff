@@ -1,4 +1,4 @@
-package com.tsunderebug.mazestuff.mazes;
+package com.tsunderebug.mazestuff.mazes.hex;
 
 import com.tsunderebug.mazestuff.Cell;
 import com.tsunderebug.mazestuff.cells.HexagonalCell;
