@@ -17,9 +17,6 @@ public class RecursiveBacktracker implements Algorithm {
 		path.push(current);
 		visited.add(current);
 		while(!path.isEmpty()) {
-			if(current instanceof TriangularCell) {
-				System.out.println(((TriangularCell) current).getX() + ", " + ((TriangularCell) current).getY());
-			}
 			if(visited.containsAll(current.neighbors())) {
 				current = path.pop();
 			} else {

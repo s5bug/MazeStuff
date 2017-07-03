@@ -62,7 +62,7 @@ public class TriangularTriangularCellMaze implements TriangularCellMaze {
 			for(int col = 0; col < 2 * r + 1; col++) {
 				int x = (col / 2 + (l - r) / 2);
 				int x1 = x * (cellsize + linethickness);
-				int x2 = x * (cellsize + linethickness) + cellsize / 2;
+				int x2 = x * (cellsize + linethickness) + (cellsize + linethickness) / 2;
 				int x3 = (x + 1) * (cellsize + linethickness);
 				int y1 = r * (h + linethickness);
 				int y2 = (r + 1) * (h + linethickness);

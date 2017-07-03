@@ -5,6 +5,6 @@ import com.tsunderebug.mazestuff.cells.TriangularCell;
 
 public interface TriangularCellMaze extends Maze<TriangularCell> {
 
-	public TriangularCell position(int x, int y);
+	TriangularCell position(int x, int y);
 
 }
