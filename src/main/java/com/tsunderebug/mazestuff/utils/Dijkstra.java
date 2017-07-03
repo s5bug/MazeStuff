@@ -26,12 +26,17 @@ public class Dijkstra {
 				ArrayList<Cell> n = new ArrayList<>(current.connections());
 				n.removeAll(visited);
 				Collections.shuffle(n);
-				Cell newCell = n.get(0);
-				distance++;
-				m.put(newCell, distance);
-				path.push(newCell);
-				visited.add(newCell);
-				current = newCell;
+				if(n.isEmpty()) {
+					current = path.pop();
+					distance--;
+				} else {
+					Cell newCell = n.get(0);
+					distance++;
+					m.put(newCell, distance);
+					path.push(newCell);
+					visited.add(newCell);
+					current = newCell;
+				}
 			}
 		}
 		return m;

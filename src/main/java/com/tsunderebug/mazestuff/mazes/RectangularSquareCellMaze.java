@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
 
 public class RectangularSquareCellMaze implements SquareCellMaze {
 
-	private final int h;
-	private final int w;
-	private SquareCell[][] cells;
+	protected final int h;
+	protected final int w;
+	protected SquareCell[][] cells;
 
 	public RectangularSquareCellMaze(int w, int h) {
 		this.w = w;
@@ -59,60 +59,67 @@ public class RectangularSquareCellMaze implements SquareCellMaze {
 		for(int x = 0; x < w; x++) {
 			for(int y = 0; y < h; y++) {
 				SquareCell cell = cells[x][y];
-				int x1 = (linethickness + cellsize) * x;
-				int x2 = (linethickness + cellsize) * x + padding;
-				int x3 = (linethickness + cellsize) * (x + 1) - padding;
-				int x4 = (linethickness + cellsize) * (x + 1);
-				int y1 = (linethickness + cellsize) * y;
-				int y2 = (linethickness + cellsize) * y + padding;
-				int y3 = (linethickness + cellsize) * (y + 1) - padding;
-				int y4 = (linethickness + cellsize) * (y + 1);
-				Color newc = Color.white;
-				if(color) {
-					int l = d.get(cell);
-					int newr = (int) (bright.getRed() * ((double) (m - l) / (double) m));
-					int newg = (int) (bright.getGreen() * ((double) (m - l) / (double) m));
-					int newb = (int) (bright.getBlue() * ((double) (m - l) / (double) m));
-					newc = new Color(newr, newg, newb);
-				}
-				g.setColor(newc);
-				g.fillRect(x2, y2, x3 - x2, y3 - y2);
-				g.setColor(Color.black);
-				if(cell.north() == null || !cell.connections().contains(cell.north())) {
-					g.drawLine(x2, y2, x3, y2);
-				} else {
+				if(cell != null) {
+					int x1 = (linethickness + cellsize) * x;
+					int x2 = (linethickness + cellsize) * x + padding;
+					int x3 = (linethickness + cellsize) * (x + 1) - padding;
+					int x4 = (linethickness + cellsize) * (x + 1);
+					int y1 = (linethickness + cellsize) * y;
+					int y2 = (linethickness + cellsize) * y + padding;
+					int y3 = (linethickness + cellsize) * (y + 1) - padding;
+					int y4 = (linethickness + cellsize) * (y + 1);
+					Color newc = Color.white;
+					if (color) {
+						try {
+							int l = d.get(cell);
+							int newr = (int) (bright.getRed() * ((double) (m - l) / (double) m));
+							int newg = (int) (bright.getGreen() * ((double) (m - l) / (double) m));
+							int newb = (int) (bright.getBlue() * ((double) (m - l) / (double) m));
+							newc = new Color(newr, newg, newb);
+						} catch (NullPointerException e) {
+							System.out.println("Cell at " + x + ", " + y + " is unreachable!");
+							newc = Color.red;
+						}
+					}
 					g.setColor(newc);
-					g.fillRect(x2, y1, x3 - x2, y2 - y1);
+					g.fillRect(x2, y2, x3 - x2, y3 - y2);
 					g.setColor(Color.black);
-					g.drawLine(x2, y1, x2, y2);
-					g.drawLine(x3, y1, x3, y2);
-				}
-				if(cell.south() == null || !cell.connections().contains(cell.south())) {
-					g.drawLine(x2, y3, x3, y3);
-				} else {
-					g.setColor(newc);
-					g.fillRect(x2, y3, x3 - x2, y4 - y3);
-					g.setColor(Color.black);
-					g.drawLine(x2, y3, x2, y4);
-					g.drawLine(x3, y3, x3, y4);
-				}
-				if(cell.east() == null || !cell.connections().contains(cell.east())) {
-					g.drawLine(x3, y2, x3, y3);
-				} else {
-					g.setColor(newc);
-					g.fillRect(x3, y2, x4 - x3, y3 - y2);
-					g.setColor(Color.black);
-					g.drawLine(x3, y2, x4, y2);
-					g.drawLine(x3, y3, x4, y3);
-				}
-				if(cell.west() == null || !cell.connections().contains(cell.west())) {
-					g.drawLine(x2, y2, x2, y3);
-				} else {
-					g.setColor(newc);
-					g.fillRect(x1, y2, x2 - x1, y3 - y2);
-					g.setColor(Color.black);
-					g.drawLine(x1, y2, x2, y2);
-					g.drawLine(x1, y3, x2, y3);
+					if (cell.north() == null || !cell.connections().contains(cell.north())) {
+						g.drawLine(x2, y2, x3, y2);
+					} else {
+						g.setColor(newc);
+						g.fillRect(x2, y1, x3 - x2, y2 - y1);
+						g.setColor(Color.black);
+						g.drawLine(x2, y1, x2, y2);
+						g.drawLine(x3, y1, x3, y2);
+					}
+					if (cell.south() == null || !cell.connections().contains(cell.south())) {
+						g.drawLine(x2, y3, x3, y3);
+					} else {
+						g.setColor(newc);
+						g.fillRect(x2, y3, x3 - x2, y4 - y3);
+						g.setColor(Color.black);
+						g.drawLine(x2, y3, x2, y4);
+						g.drawLine(x3, y3, x3, y4);
+					}
+					if (cell.east() == null || !cell.connections().contains(cell.east())) {
+						g.drawLine(x3, y2, x3, y3);
+					} else {
+						g.setColor(newc);
+						g.fillRect(x3, y2, x4 - x3, y3 - y2);
+						g.setColor(Color.black);
+						g.drawLine(x3, y2, x4, y2);
+						g.drawLine(x3, y3, x4, y3);
+					}
+					if (cell.west() == null || !cell.connections().contains(cell.west())) {
+						g.drawLine(x2, y2, x2, y3);
+					} else {
+						g.setColor(newc);
+						g.fillRect(x1, y2, x2 - x1, y3 - y2);
+						g.setColor(Color.black);
+						g.drawLine(x1, y2, x2, y2);
+						g.drawLine(x1, y3, x2, y3);
+					}
 				}
 			}
 		}
