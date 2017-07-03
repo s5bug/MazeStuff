@@ -17,10 +17,10 @@ import java.io.IOException;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		MaskedRectangularTriangularCellMaze m = new MaskedRectangularTriangularCellMaze(Mask.fromImage(ImageIO.read(new File("tancascade.png"))));
+		TriangularTriangularCellMaze m = new TriangularTriangularCellMaze(333);
 		new RecursiveBacktracker().apply(m);
 		ImageIO.write(m.toImage(2, 10, false, Color.cyan), "png", new File("test.png"));
-		ImageIO.write(m.toImage(2, 10, true, Color.magenta), "png", new File("testc.png"));
+		ImageIO.write(m.toImage(2, 10, true, Color.green), "png", new File("testc.png"));
 	}
 
 }

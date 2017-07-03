@@ -64,7 +64,7 @@ public class TriangularTriangularCellMaze implements TriangularCellMaze {
 				int x1 = x * (cellsize + linethickness);
 				int x2 = x * (cellsize + linethickness) + (cellsize + linethickness) / 2;
 				int x3 = (x + 1) * (cellsize + linethickness);
-				int y1 = r * (h + linethickness);
+				int y1 = r * (h + linethickness) - linethickness;
 				int y2 = (r + 1) * (h + linethickness);
 				if(r % 2 == 1) {
 					x1 -= cellsize / 2;
