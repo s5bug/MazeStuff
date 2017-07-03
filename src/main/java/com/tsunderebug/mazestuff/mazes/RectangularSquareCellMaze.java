@@ -51,7 +51,7 @@ public class RectangularSquareCellMaze implements SquareCellMaze {
 		BufferedImage c = new BufferedImage((linethickness + cellsize) * w + linethickness, (linethickness + cellsize) * h + linethickness, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = (Graphics2D) c.getGraphics();
 		g.setBackground(Color.white);
-		g.fillRect(0, 0, (linethickness + cellsize) * w + linethickness, (linethickness + cellsize) * h + linethickness);
+		g.fillRect(0, 0, c.getWidth(), c.getHeight());
 		g.setColor(Color.black);
 		g.setStroke(new BasicStroke(linethickness));
 		Map<Cell, Integer> d = Dijkstra.forMaze(this);
