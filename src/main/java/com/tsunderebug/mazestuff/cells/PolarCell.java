@@ -45,7 +45,7 @@ public class PolarCell implements Cell<PolarCell> {
 	}
 
 	public PolarCell inwards() {
-		if(r % 2 == 0) {
+		if(m.mt(r - 1) < m.mt(r)) {
 			return m.position(r - 1, t / 2);
 		} else {
 			return m.position(r - 1, t);
@@ -53,7 +53,7 @@ public class PolarCell implements Cell<PolarCell> {
 	}
 
 	public PolarCell outwards() {
-		if(r % 2 == 1) {
+		if(m.mt(r + 1) > m.mt(r)) {
 			return m.position(r + 1, t * 2);
 		} else {
 			return m.position(r + 1, t);
@@ -61,7 +61,7 @@ public class PolarCell implements Cell<PolarCell> {
 	}
 
 	public PolarCell secondOutwards() {
-		if(r % 2 == 1) {
+		if(m.mt(r + 1) > m.mt(r)) {
 			return m.position(r + 1, t * 2 + 1);
 		} else {
 			return null;
