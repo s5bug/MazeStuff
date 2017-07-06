@@ -6,6 +6,7 @@ import com.tsunderebug.mazestuff.cells.PolarCell;
 import com.tsunderebug.mazestuff.utils.Dijkstra;
 
 import java.awt.*;
+import java.awt.geom.Arc2D;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -59,6 +60,7 @@ public class PolarMaze implements Maze<PolarCell> {
 		if(r == 0) {
 			return cells[0][0];
 		} else {
+			System.out.println("Input: (" + r + ", " + t + ")\tOutput: (" + r + ", " + (((t % mt) + mt) % mt) + ")");
 			return cells[r][((t % mt) + mt) % mt];
 		}
 	}
@@ -94,8 +96,8 @@ public class PolarMaze implements Maze<PolarCell> {
 				// Get the cell
 				PolarCell c = position(s, t);
 				if(c != null) {
-					int leftang = t * 360 / mt;
-					int rightang = (t + 1) * 360 / mt;
+					double leftang = t * 360.0d / mt;
+					double rightang = (t + 1) * 360.0d / mt;
 
 					// Top left
 					int x1 = (int) (Math.cos(Math.toRadians(leftang)) * outr) + img.getWidth() / 2;
@@ -128,7 +130,7 @@ public class PolarMaze implements Maze<PolarCell> {
 						}
 					}
 					g.setColor(newc);
-					g.fillArc(outs + linethickness, outs + linethickness, (outr - linethickness) * 2, (outr - linethickness) * 2, leftang, rightang - leftang);
+					g.fill(new Arc2D.Double(outs + (linethickness / 2.0d), outs + (linethickness / 2.0d), (outr - linethickness) * 2.0d + linethickness, (outr - linethickness) * 2.0d + linethickness, leftang, rightang - leftang, Arc2D.PIE));
 					g.setColor(Color.black);
 
 					if(c.ccw() == null || !c.connections().contains(c.ccw())) {
@@ -138,18 +140,18 @@ public class PolarMaze implements Maze<PolarCell> {
 						g.drawLine(x2, y2, x4, y4);
 					}
 					if(c.inwards() == null || !c.connections().contains(c.inwards())) {
-						g.drawArc(ins, ins, inr * 2, inr * 2, leftang, rightang - leftang);
+						g.draw(new Arc2D.Double(ins, ins, inr * 2, inr * 2, leftang, rightang - leftang, Arc2D.OPEN));
 					}
 					if(mt(s + 1) == mt(s)) {
 						if(c.outwards() == null || !c.connections().contains(c.outwards())) {
-							g.drawArc(outs, outs, outr * 2, outr * 2, leftang, rightang - leftang);
+							g.draw(new Arc2D.Double(outs, outs, outr * 2, outr * 2, leftang, rightang - leftang, Arc2D.OPEN));
 						}
 					} else {
 						if(c.outwards() == null || !c.connections().contains(c.outwards())) {
-							g.drawArc(outs, outs, outr * 2, outr * 2, leftang, (rightang - leftang) / 2);
+							g.draw(new Arc2D.Double(outs, outs, outr * 2, outr * 2, leftang, (rightang - leftang) / 2, Arc2D.OPEN));
 						}
 						if(c.secondOutwards() == null || !c.connections().contains(c.secondOutwards())) {
-							g.drawArc(outs, outs, outr * 2, outr * 2, leftang + (rightang - leftang) / 2, (rightang - leftang) / 2);
+							g.draw(new Arc2D.Double(outs, outs, outr * 2, outr * 2, leftang + (rightang - leftang) / 2, (rightang - leftang) / 2, Arc2D.OPEN));
 						}
 					}
 				}
