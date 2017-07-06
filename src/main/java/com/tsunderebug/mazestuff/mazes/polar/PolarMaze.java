@@ -60,7 +60,6 @@ public class PolarMaze implements Maze<PolarCell> {
 		if(r == 0) {
 			return cells[0][0];
 		} else {
-			System.out.println("Input: (" + r + ", " + t + ")\tOutput: (" + r + ", " + (((t % mt) + mt) % mt) + ")");
 			return cells[r][((t % mt) + mt) % mt];
 		}
 	}
