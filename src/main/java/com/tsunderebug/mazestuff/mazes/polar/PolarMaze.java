@@ -59,10 +59,7 @@ public class PolarMaze implements Maze<PolarCell> {
 		if(r == 0) {
 			return cells[0][0];
 		} else {
-			while (t < 0) {
-				t += mt;
-			}
-			return cells[r][t % mt];
+			return cells[r][((t % mt) + mt) % mt];
 		}
 	}
 
@@ -100,6 +97,8 @@ public class PolarMaze implements Maze<PolarCell> {
 					int leftang = t * 360 / mt;
 					int rightang = (t + 1) * 360 / mt;
 
+					System.out.println("t: " + t + "\tmt: " + mt + "\tla: " + leftang + "\tra: " + rightang);
+
 					// Top left
 					int x1 = (int) (Math.cos(Math.toRadians(leftang)) * outr) + img.getWidth() / 2;
 					int y1 = (int) (-Math.sin(Math.toRadians(leftang)) * outr) + img.getHeight() / 2;
@@ -131,7 +130,7 @@ public class PolarMaze implements Maze<PolarCell> {
 						}
 					}
 					g.setColor(newc);
-					g.fillArc(outs, outs, outr * 2, outr * 2, leftang, rightang - leftang);
+					g.fillArc(outs + linethickness, outs + linethickness, (outr - linethickness) * 2, (outr - linethickness) * 2, leftang, rightang - leftang);
 					g.setColor(Color.black);
 
 					if(c.ccw() == null || !c.connections().contains(c.ccw())) {
@@ -141,22 +140,26 @@ public class PolarMaze implements Maze<PolarCell> {
 						g.drawLine(x2, y2, x4, y4);
 					}
 					if(c.inwards() == null || !c.connections().contains(c.inwards())) {
-						g.drawArc(ins, ins, inr * 2, inr * 2, leftang, leftang - rightang);
+						g.drawArc(ins, ins, inr * 2, inr * 2, leftang, rightang - leftang);
 					}
 					if(mt(s + 1) == mt(s)) {
 						if(c.outwards() == null || !c.connections().contains(c.outwards())) {
-							g.drawArc(outs, outs, outr * 2, outr * 2, leftang, leftang - rightang);
+							g.drawArc(outs, outs, outr * 2, outr * 2, leftang, rightang - leftang);
 						}
 					} else {
 						if(c.outwards() == null || !c.connections().contains(c.outwards())) {
-							g.drawArc(outs, outs, outr * 2, outr * 2, leftang, (leftang - rightang) / 2);
+							g.drawArc(outs, outs, outr * 2, outr * 2, leftang, (rightang - leftang) / 2);
 						}
 						if(c.secondOutwards() == null || !c.connections().contains(c.secondOutwards())) {
-							g.drawArc(outs, outs, outr * 2, outr * 2, leftang + (leftang - rightang) / 2, (leftang - rightang) / 2);
+							g.drawArc(outs, outs, outr * 2, outr * 2, leftang + (rightang - leftang) / 2, (rightang - leftang) / 2);
 						}
 					}
 				}
 			}
+		}
+		if(color) {
+			g.setColor(bright);
+			g.fillArc(img.getWidth() / 2 - cellsize / 2, img.getHeight() / 2 - cellsize / 2, cellsize, cellsize, 0, 360);
 		}
 
 		return img;

@@ -46,6 +46,7 @@ public class PolarCell implements Cell<PolarCell> {
 
 	public PolarCell inwards() {
 		if(m.mt(r - 1) < m.mt(r)) {
+			System.out.println("I am (" + r + ", " + t + "), inwards is (" + (r - 1) + ", " + (t / 2) +")");
 			return m.position(r - 1, t / 2);
 		} else {
 			return m.position(r - 1, t);
