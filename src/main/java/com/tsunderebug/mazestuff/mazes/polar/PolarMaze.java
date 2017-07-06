@@ -97,8 +97,6 @@ public class PolarMaze implements Maze<PolarCell> {
 					int leftang = t * 360 / mt;
 					int rightang = (t + 1) * 360 / mt;
 
-					System.out.println("t: " + t + "\tmt: " + mt + "\tla: " + leftang + "\tra: " + rightang);
-
 					// Top left
 					int x1 = (int) (Math.cos(Math.toRadians(leftang)) * outr) + img.getWidth() / 2;
 					int y1 = (int) (-Math.sin(Math.toRadians(leftang)) * outr) + img.getHeight() / 2;
