@@ -1,13 +1,13 @@
 language: java
 before_install:
- - chmod +x gradlew
+- chmod +x gradlew
 jdk:
- - oraclejdk8
+- oraclejdk8
 script: ./gradlew shadowJar
 deploy:
   provider: releases
-  api_key: d89f42f0f3fb6341aea3cad705272ae8386caecf
-  file: "build/libs/MazeStuff-1.0-SNAPSHOT-all.jar"
-  skip_cleanup: true
+  api_key:
+    secure: i3hNzRcz3j1bD2LgjG5/B/NWvL5yekWHbkbe4WPTBR93uqLIMrd/4+5LLM0sl1h8hvXy/wvTshGlgX8Q0PhZwwBBkf5gmqYH5MjF49F1zB7L7vE391nkvAYymVvyh+gzZ8f5Xc6GbH3p/7S+rzCg1jkbLfycZW2JsMoAzGQilmoKbmN+48qLU87Dxe/PSEzPk1R00B+mq3y35jlxqEYNE7DYtEdZdxRcfJCvhNxGFuvur2aTYetV4u3sfy0fnBra0VuBzpadk97kB0vAdVdB6iRlMFJu8uuIm9+JKAiwLzwXOnZmdUjEUOwJA3m+vmVwsslBTHBFjpieMcNupmEfRVA7jCctJGLsWFAgbP/apoH0xe3D3TgsFtof4WhdLisWw4oaMmZGTTE/PRc2VaSuh6whKhZzevTroyuApHfzOd6a2HL7jTP+rTSCa09Yj9O57dJXn7nOHAE9bVjjXpsb9Gjr1ggEYrhAP7OHJIl7LDSchUhKItoewmOHBoa2CD7e6UXhRneArs934e4WQ+00aBDpvtNctxM4LRop88vfvfOy3K0iPZ8LxZg7Avr2W6Z2dTCai/ahlO/3NBGVOCtpxgw+B7Aa6MHHSYuYY0EqC32Ur/kAGX12f6tY7GPmOK5ARtA/d5mUndC2gijFFiLISN0ZiTWnCQs9wXNC/O9ouSo=
+  file: build/libs/MazeStuff-1.0-SNAPSHOT-all.jar
   on:
     tags: true
