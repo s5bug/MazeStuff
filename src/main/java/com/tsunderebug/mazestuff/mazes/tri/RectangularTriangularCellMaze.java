@@ -47,7 +47,7 @@ public class RectangularTriangularCellMaze implements TriangularCellMaze {
 		return this.cells[0][0];
 	}
 
-	public BufferedImage toImage(int linethickness, int cellsize, boolean color, Color bright) {
+	public BufferedImage toImage(int linethickness, int cellsize, int unused, boolean color, Color bright) {
 		int th = (int) (Math.sqrt(3) / 2 * cellsize);
 
 		BufferedImage c = new BufferedImage((w / 2 + 1) * (cellsize + linethickness) + linethickness, h * (th + linethickness) + linethickness, BufferedImage.TYPE_INT_RGB);

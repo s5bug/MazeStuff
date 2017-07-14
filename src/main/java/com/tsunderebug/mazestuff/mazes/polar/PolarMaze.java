@@ -1,6 +1,7 @@
 package com.tsunderebug.mazestuff.mazes.polar;
 
 import com.tsunderebug.mazestuff.Cell;
+import com.tsunderebug.mazestuff.DrawableMaze;
 import com.tsunderebug.mazestuff.Maze;
 import com.tsunderebug.mazestuff.cells.PolarCell;
 import com.tsunderebug.mazestuff.utils.Dijkstra;
@@ -14,7 +15,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class PolarMaze implements Maze<PolarCell> {
+public class PolarMaze implements DrawableMaze<PolarCell> {
 
 	private final int r;
 	protected PolarCell[][] cells;
@@ -64,7 +65,7 @@ public class PolarMaze implements Maze<PolarCell> {
 		}
 	}
 
-	public BufferedImage toImage(int linethickness, int cellsize, boolean color, Color bright) {
+	public BufferedImage toImage(int linethickness, int cellsize, int unused, boolean color, Color bright) {
 		// Create image
 		BufferedImage img = new BufferedImage(2 * r * (linethickness + cellsize) - cellsize, 2 * r * (linethickness + cellsize) - cellsize, BufferedImage.TYPE_INT_RGB);
 		// Get graphics

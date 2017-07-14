@@ -47,7 +47,7 @@ public class RectangularHexagonalCellMaze implements HexagonalCellMaze {
 		return cells[0][0];
 	}
 
-	public BufferedImage toImage(int linethickness, int cellsize, boolean color, Color bright) {
+	public BufferedImage toImage(int linethickness, int cellsize, int unused, boolean color, Color bright) {
 		double a = cellsize / 2;
 		double b = (cellsize * Math.sqrt(3) / 2);
 		double width = cellsize * 2;
