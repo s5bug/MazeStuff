@@ -7,23 +7,23 @@ import com.tsunderebug.mazestuff.cells.TriangularCell;
 
 import java.util.*;
 
-public class RecursiveBacktracker implements Algorithm {
+public class RecursiveBacktracker<M extends Maze<C>, C extends Cell<C>> implements Algorithm<M, C> {
 
 	@Override
-	public Maze apply(Maze in) {
-		Deque<Cell> path = new ArrayDeque<>();
-		Set<Cell> visited = new HashSet<>();
-		Cell current = in.startCell();
+	public M apply(M in) {
+		Deque<C> path = new ArrayDeque<>();
+		Set<C> visited = new HashSet<>();
+		C current = in.startCell();
 		path.push(current);
 		visited.add(current);
 		while(!path.isEmpty()) {
 			if(visited.containsAll(current.neighbors())) {
 				current = path.pop();
 			} else {
-				ArrayList<Cell> n = new ArrayList<>(current.neighbors());
+				ArrayList<C> n = new ArrayList<>(current.neighbors());
 				n.removeAll(visited);
 				Collections.shuffle(n);
-				Cell newCell = n.get(0);
+				C newCell = n.get(0);
 				path.push(newCell);
 				visited.add(newCell);
 				in.connect(current, newCell);
