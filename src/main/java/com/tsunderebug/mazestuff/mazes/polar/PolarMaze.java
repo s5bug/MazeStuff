@@ -8,6 +8,7 @@ import com.tsunderebug.mazestuff.utils.Dijkstra;
 
 import java.awt.*;
 import java.awt.geom.Arc2D;
+import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -100,20 +101,20 @@ public class PolarMaze implements DrawableMaze<PolarCell> {
 					double rightang = (t + 1) * 360.0d / mt;
 
 					// Top left
-					int x1 = (int) (Math.cos(Math.toRadians(leftang)) * outr) + img.getWidth() / 2;
-					int y1 = (int) (-Math.sin(Math.toRadians(leftang)) * outr) + img.getHeight() / 2;
+					double x1 = (Math.cos(Math.toRadians(leftang)) * outr) + img.getWidth() / 2;
+					double y1 = (-Math.sin(Math.toRadians(leftang)) * outr) + img.getHeight() / 2;
 
 					// Top right
-					int x2 = (int) (Math.cos(Math.toRadians(rightang)) * outr) + img.getWidth() / 2;
-					int y2 = (int) (-Math.sin(Math.toRadians(rightang)) * outr) + img.getHeight() / 2;
+					double x2 = (Math.cos(Math.toRadians(rightang)) * outr) + img.getWidth() / 2;
+					double y2 = (-Math.sin(Math.toRadians(rightang)) * outr) + img.getHeight() / 2;
 
 					// Bottom left
-					int x3 = (int) (Math.cos(Math.toRadians(leftang)) * inr) + img.getWidth() / 2;
-					int y3 = (int) (-Math.sin(Math.toRadians(leftang)) * inr) + img.getHeight() / 2;
+					double x3 = (Math.cos(Math.toRadians(leftang)) * inr) + img.getWidth() / 2;
+					double y3 = (-Math.sin(Math.toRadians(leftang)) * inr) + img.getHeight() / 2;
 
 					// Bottom right
-					int x4 = (int) (Math.cos(Math.toRadians(rightang)) * inr) + img.getWidth() / 2;
-					int y4 = (int) (-Math.sin(Math.toRadians(rightang)) * inr) + img.getHeight() / 2;
+					double x4 = (Math.cos(Math.toRadians(rightang)) * inr) + img.getWidth() / 2;
+					double y4 = (-Math.sin(Math.toRadians(rightang)) * inr) + img.getHeight() / 2;
 
 					// Color
 					Color newc = Color.white;
@@ -134,10 +135,10 @@ public class PolarMaze implements DrawableMaze<PolarCell> {
 					g.setColor(Color.black);
 
 					if(c.ccw() == null || !c.connections().contains(c.ccw())) {
-						g.drawLine(x1, y1, x3, y3);
+						g.draw(new Line2D.Double(x1, y1, x3, y3));
 					}
 					if(c.cw() == null || !c.connections().contains(c.cw())) {
-						g.drawLine(x2, y2, x4, y4);
+						g.draw(new Line2D.Double(x2, y2, x4, y4));
 					}
 					if(c.inwards() == null || !c.connections().contains(c.inwards())) {
 						g.draw(new Arc2D.Double(ins, ins, inr * 2, inr * 2, leftang, rightang - leftang, Arc2D.OPEN));

@@ -5,6 +5,8 @@ import com.tsunderebug.mazestuff.cells.TriangularCell;
 import com.tsunderebug.mazestuff.utils.Dijkstra;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -48,9 +50,9 @@ public class TriangularTriangularCellMaze implements TriangularCellMaze {
 	}
 
 	public BufferedImage toImage(int linethickness, int cellsize, int unused, boolean color, Color bright) {
-		int h = (int) (Math.sqrt(3) / 2 * cellsize);
+		double h = (Math.sqrt(3) / 2 * cellsize);
 
-		BufferedImage c = new BufferedImage(l * (cellsize + linethickness) + linethickness, l * (h + linethickness) + linethickness, BufferedImage.TYPE_INT_RGB);
+		BufferedImage c = new BufferedImage(l * (cellsize + linethickness) + linethickness, (int) (l * (h + linethickness) + linethickness), BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = (Graphics2D) c.getGraphics();
 		g.setBackground(Color.white);
 		g.fillRect(0, 0, c.getWidth(), c.getHeight());
@@ -60,12 +62,12 @@ public class TriangularTriangularCellMaze implements TriangularCellMaze {
 		int m = d.values().stream().max(Integer::compareTo).get();
 		for(int r = 0; r < l; r++) {
 			for(int col = 0; col < 2 * r + 1; col++) {
-				int x = (col / 2 + (l - r) / 2);
-				int x1 = x * (cellsize + linethickness);
-				int x2 = x * (cellsize + linethickness) + (cellsize + linethickness) / 2;
-				int x3 = (x + 1) * (cellsize + linethickness);
-				int y1 = r * (h + linethickness) - linethickness;
-				int y2 = (r + 1) * (h + linethickness);
+				double x = (col / 2 + (l - r) / 2);
+				double x1 = x * (cellsize + linethickness);
+				double x2 = x * (cellsize + linethickness) + (cellsize + linethickness) / 2;
+				double x3 = (x + 1) * (cellsize + linethickness);
+				double y1 = r * (h + linethickness) - linethickness;
+				double y2 = (r + 1) * (h + linethickness);
 				if(r % 2 == 1) {
 					x1 -= cellsize / 2;
 					x2 -= cellsize / 2;
@@ -73,18 +75,20 @@ public class TriangularTriangularCellMaze implements TriangularCellMaze {
 				}
 				TriangularCell cell = cells[r][col];
 				if(cell != null) {
-					Polygon p = new Polygon();
+					Path2D p = new Path2D.Double();
 					if(cell.isUpwards()) {
-						p.addPoint(x1 - linethickness, y2);
-						p.addPoint(x2, y1);
-						p.addPoint(x3, y2);
+						p.moveTo(x3, y2);
+						p.lineTo(x1 - linethickness, y2);
+						p.lineTo(x2, y1);
+						p.lineTo(x3, y2);
 					} else {
 						x1 += cellsize / 2;
 						x2 += cellsize / 2;
 						x3 += cellsize / 2;
-						p.addPoint(x1, y1);
-						p.addPoint(x2, y2);
-						p.addPoint(x3, y1);
+						p.moveTo(x3, y1);
+						p.lineTo(x1, y1);
+						p.lineTo(x2, y2);
+						p.lineTo(x3, y1);
 					}
 					Color newc = Color.white;
 					if (color) {
@@ -104,23 +108,23 @@ public class TriangularTriangularCellMaze implements TriangularCellMaze {
 					g.setColor(Color.black);
 					if (cell.isUpwards()) {
 						if (cell.south() == null || !cell.connections().contains(cell.south())) {
-							g.drawLine(x1, y2, x3, y2);
+							g.draw(new Line2D.Double(x1, y2, x3, y2));
 						}
 						if (cell.northWest() == null || !cell.connections().contains(cell.northWest())) {
-							g.drawLine(x1, y2, x2, y1);
+							g.draw(new Line2D.Double(x1, y2, x2, y1));
 						}
 						if (cell.northEast() == null || !cell.connections().contains(cell.northEast())) {
-							g.drawLine(x2, y1, x3, y2);
+							g.draw(new Line2D.Double(x2, y1, x3, y2));
 						}
 					} else {
 						if (cell.north() == null || !cell.connections().contains(cell.north())) {
-							g.drawLine(x1, y1, x3, y1);
+							g.draw(new Line2D.Double(x1, y1, x3, y1));
 						}
 						if (cell.southWest() == null || !cell.connections().contains(cell.southWest())) {
-							g.drawLine(x1, y1, x2, y2);
+							g.draw(new Line2D.Double(x1, y1, x2, y2));
 						}
 						if (cell.southEast() == null || !cell.connections().contains(cell.southEast())) {
-							g.drawLine(x2, y2, x3, y1);
+							g.draw(new Line2D.Double(x2, y2, x3, y1));
 						}
 					}
 				}

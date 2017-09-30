@@ -5,6 +5,8 @@ import com.tsunderebug.mazestuff.cells.TriangularCell;
 import com.tsunderebug.mazestuff.utils.Dijkstra;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -48,9 +50,9 @@ public class RectangularTriangularCellMaze implements TriangularCellMaze {
 	}
 
 	public BufferedImage toImage(int linethickness, int cellsize, int unused, boolean color, Color bright) {
-		int th = (int) (Math.sqrt(3) / 2 * cellsize);
+		double th = (Math.sqrt(3) / 2 * cellsize);
 
-		BufferedImage c = new BufferedImage((w / 2 + 1) * (cellsize + linethickness) + linethickness, h * (th + linethickness) + linethickness, BufferedImage.TYPE_INT_RGB);
+		BufferedImage c = new BufferedImage((w / 2 + 1) * (cellsize + linethickness) + linethickness, (int) (h * (th + linethickness) + linethickness), BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = (Graphics2D) c.getGraphics();
 		g.setBackground(Color.white);
 		g.fillRect(0, 0, c.getWidth(), c.getHeight());
@@ -62,33 +64,35 @@ public class RectangularTriangularCellMaze implements TriangularCellMaze {
 			for(int y = 0; y < h; y++) {
 				TriangularCell cell = cells[x][y];
 				if(cell != null) {
-					int x1 = (cell.getX() / 2) * (cellsize + linethickness);
-					int x2 = (cell.getX() / 2) * (cellsize + linethickness) + (cellsize + linethickness) / 2;
-					int x3 = ((cell.getX() / 2) + 1) * (cellsize + linethickness);
-					int y1 = y * (th + linethickness);
-					int y2 = (y + 1) * (th + linethickness);
+					double x1 = (cell.getX() / 2) * (cellsize + linethickness);
+					double x2 = (cell.getX() / 2) * (cellsize + linethickness) + (cellsize + linethickness) / 2;
+					double x3 = ((cell.getX() / 2) + 1) * (cellsize + linethickness);
+					double y1 = y * (th + linethickness);
+					double y2 = (y + 1) * (th + linethickness);
 					if(y % 2 == 1) {
 						x1 -= cellsize / 2;
 						x2 -= cellsize / 2;
 						x3 -= cellsize / 2;
 					}
-					Polygon p = new Polygon();
+					Path2D p = new Path2D.Double();
 					if(cell.isUpwards()) {
 						if(cell.getX() % 2 == 1) {
 							x1 += cellsize;
 							x2 += cellsize;
 							x3 += cellsize;
 						}
-						p.addPoint(x1 - linethickness, y2);
-						p.addPoint(x2, y1);
-						p.addPoint(x3 + linethickness, y2);
+						p.moveTo(x3 + linethickness, y2);
+						p.lineTo(x1 - linethickness, y2);
+						p.lineTo(x2, y1);
+						p.lineTo(x3 + linethickness, y2);
 					} else {
 						x1 += cellsize / 2;
 						x2 += cellsize / 2;
 						x3 += cellsize / 2;
-						p.addPoint(x1 - linethickness, y1);
-						p.addPoint(x2, y2);
-						p.addPoint(x3 + linethickness, y1);
+						p.moveTo(x3 + linethickness, y1);
+						p.lineTo(x1 - linethickness, y1);
+						p.lineTo(x2, y2);
+						p.lineTo(x3 + linethickness, y1);
 					}
 					Color newc = Color.white;
 					if (color) {
@@ -108,23 +112,23 @@ public class RectangularTriangularCellMaze implements TriangularCellMaze {
 					g.setColor(Color.black);
 					if (cell.isUpwards()) {
 						if (cell.south() == null || !cell.connections().contains(cell.south())) {
-							g.drawLine(x1, y2, x3, y2);
+							g.draw(new Line2D.Double(x1, y2, x3, y2));
 						}
 						if (cell.northWest() == null || !cell.connections().contains(cell.northWest())) {
-							g.drawLine(x1, y2, x2, y1);
+							g.draw(new Line2D.Double(x1, y2, x2, y1));
 						}
 						if (cell.northEast() == null || !cell.connections().contains(cell.northEast())) {
-							g.drawLine(x2, y1, x3, y2);
+							g.draw(new Line2D.Double(x2, y1, x3, y2));
 						}
 					} else {
 						if (cell.north() == null || !cell.connections().contains(cell.north())) {
-							g.drawLine(x1, y1, x3, y1);
+							g.draw(new Line2D.Double(x1, y1, x3, y1));
 						}
 						if (cell.southWest() == null || !cell.connections().contains(cell.southWest())) {
-							g.drawLine(x1, y1, x2, y2);
+							g.draw(new Line2D.Double(x1, y1, x2, y2));
 						}
 						if (cell.southEast() == null || !cell.connections().contains(cell.southEast())) {
-							g.drawLine(x2, y2, x3, y1);
+							g.draw(new Line2D.Double(x2, y2, x3, y1));
 						}
 					}
 				}

@@ -5,6 +5,8 @@ import com.tsunderebug.mazestuff.cells.HexagonalCell;
 import com.tsunderebug.mazestuff.utils.Dijkstra;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -77,13 +79,14 @@ public class RectangularHexagonalCellMaze implements HexagonalCellMaze {
 						y2 += b;
 						y3 += b;
 					}
-					Polygon p = new Polygon();
-					p.addPoint((int) x1 - linethickness, (int) y2);
-					p.addPoint((int) x2 - linethickness, (int) y1 - linethickness);
-					p.addPoint((int) x3 + linethickness, (int) y1 - linethickness);
-					p.addPoint((int) x4 + linethickness, (int) y2);
-					p.addPoint((int) x3 + linethickness, (int) y3 + linethickness);
-					p.addPoint((int) x2 - linethickness, (int) y3 + linethickness);
+					Path2D p = new Path2D.Double();
+					p.moveTo(x2 - linethickness, y3 + linethickness);
+					p.lineTo(x1 - linethickness, y2);
+					p.lineTo(x2 - linethickness, y1 - linethickness);
+					p.lineTo(x3 + linethickness, y1 - linethickness);
+					p.lineTo(x4 + linethickness, y2);
+					p.lineTo(x3 + linethickness, y3 + linethickness);
+					p.lineTo(x2 - linethickness, y3 + linethickness);
 					Color newc = Color.white;
 					if (color) {
 						try {
@@ -101,22 +104,22 @@ public class RectangularHexagonalCellMaze implements HexagonalCellMaze {
 					g.fill(p);
 					g.setColor(Color.black);
 					if(cell.north() == null || !cell.connections().contains(cell.north())) {
-						g.drawLine((int) x2, (int) y1, (int) x3, (int) y1);
+						g.draw(new Line2D.Double(x2, y1, x3, y1));
 					}
 					if(cell.northWest() == null || !cell.connections().contains(cell.northWest())) {
-						g.drawLine((int) x1, (int) y2, (int) x2, (int) y1);
+						g.draw(new Line2D.Double(x1, y2, x2, y1));
 					}
 					if(cell.southWest() == null || !cell.connections().contains(cell.southWest())) {
-						g.drawLine((int) x1, (int) y2, (int) x2, (int) y3);
+						g.draw(new Line2D.Double(x1, y2, x2, y3));
 					}
 					if(cell.south() == null || !cell.connections().contains(cell.south())) {
-						g.drawLine((int) x2, (int) y3, (int) x3, (int) y3);
+						g.draw(new Line2D.Double(x2, y3, x3, y3));
 					}
 					if(cell.southEast() == null || !cell.connections().contains(cell.southEast())) {
-						g.drawLine((int) x3, (int) y3, (int) x4, (int) y2);
+						g.draw(new Line2D.Double(x3, y3, x4, y2));
 					}
 					if(cell.northEast() == null || !cell.connections().contains(cell.northEast())) {
-						g.drawLine((int) x3, (int) y1, (int) x4, (int) y2);
+						g.draw(new Line2D.Double(x3, y1, x4, y2));
 					}
 				}
 			}
