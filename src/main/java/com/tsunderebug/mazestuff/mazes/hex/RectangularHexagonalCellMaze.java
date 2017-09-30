@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.BlockingDeque;
 import java.util.stream.Collectors;
 
 public class RectangularHexagonalCellMaze implements HexagonalCellMaze {
@@ -19,6 +20,7 @@ public class RectangularHexagonalCellMaze implements HexagonalCellMaze {
 	private int w;
 	private int h;
 	private HexagonalCell[][] cells;
+	public static final double ROOT_3 = 1.732050808d;
 
 	public RectangularHexagonalCellMaze(int w, int h) {
 		this.w = w;
@@ -51,27 +53,27 @@ public class RectangularHexagonalCellMaze implements HexagonalCellMaze {
 
 	public BufferedImage toImage(int linethickness, int cellsize, int unused, boolean color, Color bright) {
 		double a = cellsize / 2.0d;
-		double b = (cellsize * Math.sqrt(3) / 2);
+		double b = (cellsize * ROOT_3 / 2);
 		double width = cellsize * 2.0d;
 		double height = b * 2;
 
-		BufferedImage c = new BufferedImage((int) ((linethickness + 3 * a) * w + linethickness + a), (int) ((linethickness + height) * h + linethickness + b), BufferedImage.TYPE_INT_RGB);
+		BufferedImage c = new BufferedImage((int) ((linethickness + 3 * a) * w + linethickness + a), (int) ((linethickness + height) * h + linethickness + b), BufferedImage.TYPE_INT_ARGB);
+		BufferedImage gb = new BufferedImage(c.getWidth(), c.getHeight(), c.getType());
+		Graphics2D bg = (Graphics2D) gb.getGraphics();
 		Graphics2D g = (Graphics2D) c.getGraphics();
-		g.setBackground(Color.white);
-		g.fillRect(0, 0, c.getWidth(), c.getHeight());
 		g.setColor(Color.black);
 		g.setStroke(new BasicStroke(linethickness));
 		Map<Cell, Integer> d = Dijkstra.forMaze(this);
 		int m = d.values().stream().max(Integer::compareTo).get();
 		for (int x = 0; x < w; x++) {
 			for (int y = 0; y < h; y++) {
-				double x1 = (linethickness + 3 * a) * x;
-				double x2 = x1 + a;
-				double x3 = x1 + width - a;
-				double x4 = x1 + width;
+				double x1 = (linethickness + 3.0d * a) * x - linethickness;
+				double x2 = (linethickness + 3.0d * a) * x + a - (linethickness / ROOT_3);
+				double x3 = (linethickness + 3.0d * a) * x + width - a + (linethickness / ROOT_3);
+				double x4 = (linethickness + 3.0d * a) * x + width + linethickness;
 				double y1 = (linethickness + height) * y;
-				double y2 = y1 + b;
-				double y3 = y2 + b;
+				double y2 = (linethickness + height) * y + b + (linethickness / 2);
+				double y3 = (linethickness + height) * (y + 1);
 				HexagonalCell cell = cells[x][y];
 				if(cell != null) {
 					if(!cell.isHigher()) {
@@ -80,13 +82,13 @@ public class RectangularHexagonalCellMaze implements HexagonalCellMaze {
 						y3 += b;
 					}
 					Path2D p = new Path2D.Double();
-					p.moveTo(x2 - linethickness, y3 + linethickness);
-					p.lineTo(x1 - linethickness, y2);
-					p.lineTo(x2 - linethickness, y1 - linethickness);
-					p.lineTo(x3 + linethickness, y1 - linethickness);
-					p.lineTo(x4 + linethickness, y2);
-					p.lineTo(x3 + linethickness, y3 + linethickness);
-					p.lineTo(x2 - linethickness, y3 + linethickness);
+					p.moveTo(x2, y3);
+					p.lineTo(x1, y2);
+					p.lineTo(x2, y1);
+					p.lineTo(x3, y1);
+					p.lineTo(x4, y2);
+					p.lineTo(x3, y3);
+					p.lineTo(x2, y3);
 					Color newc = Color.white;
 					if (color) {
 						try {
@@ -100,8 +102,8 @@ public class RectangularHexagonalCellMaze implements HexagonalCellMaze {
 							newc = Color.red;
 						}
 					}
-					g.setColor(newc);
-					g.fill(p);
+					bg.setColor(newc);
+					bg.fill(p);
 					g.setColor(Color.black);
 					if(cell.north() == null || !cell.connections().contains(cell.north())) {
 						g.draw(new Line2D.Double(x2, y1, x3, y1));
@@ -124,7 +126,13 @@ public class RectangularHexagonalCellMaze implements HexagonalCellMaze {
 				}
 			}
 		}
-		return c;
+		BufferedImage end = new BufferedImage(c.getWidth(), c.getHeight(), c.getType());
+		Graphics2D eg = (Graphics2D) end.getGraphics();
+        eg.setBackground(Color.white);
+        eg.fillRect(0, 0, c.getWidth(), c.getHeight());
+		eg.drawImage(gb, 0, 0, null);
+		eg.drawImage(c, 0, 0, null);
+		return end;
 	}
 
 }
