@@ -81,7 +81,7 @@ public class PolarMaze implements DrawableMaze<PolarCell> {
 		g.setStroke(new BasicStroke(linethickness));
 
 		// Get Dijkstra info
-		Map<Cell, Integer> d = Dijkstra.forMaze(this);
+		Map<PolarCell, Integer> d = Dijkstra.forMaze(this);
 		int m = d.values().stream().max(Integer::compareTo).get();
 
 		// Draw from outwards

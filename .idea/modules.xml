@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/MazeStuff.iml" filepath="$PROJECT_DIR$/.idea/modules/MazeStuff.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MazeStuff_main.iml" filepath="$PROJECT_DIR$/.idea/modules/MazeStuff_main.iml" group="MazeStuff" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MazeStuff_test.iml" filepath="$PROJECT_DIR$/.idea/modules/MazeStuff_test.iml" group="MazeStuff" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MazeStuff.main.iml" filepath="$PROJECT_DIR$/.idea/modules/MazeStuff.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MazeStuff.test.iml" filepath="$PROJECT_DIR$/.idea/modules/MazeStuff.test.iml" />
     </modules>
   </component>
 </project>

@@ -63,7 +63,7 @@ public class RectangularHexagonalCellMaze implements HexagonalCellMaze {
 		Graphics2D g = (Graphics2D) c.getGraphics();
 		g.setColor(Color.black);
 		g.setStroke(new BasicStroke(linethickness));
-		Map<Cell, Integer> d = Dijkstra.forMaze(this);
+		Map<HexagonalCell, Integer> d = Dijkstra.forMaze(this);
 		int m = d.values().stream().max(Integer::compareTo).get();
 		for (int x = 0; x < w; x++) {
 			for (int y = 0; y < h; y++) {

@@ -58,7 +58,7 @@ public class TriangularTriangularCellMaze implements TriangularCellMaze {
 		g.fillRect(0, 0, c.getWidth(), c.getHeight());
 		g.setColor(Color.black);
 		g.setStroke(new BasicStroke(linethickness));
-		Map<Cell, Integer> d = Dijkstra.forMaze(this);
+		Map<TriangularCell, Integer> d = Dijkstra.forMaze(this);
 		int m = d.values().stream().max(Integer::compareTo).get();
 		for(int r = 0; r < l; r++) {
 			for(int col = 0; col < 2 * r + 1; col++) {

@@ -9,36 +9,31 @@ public class Dijkstra {
 
 	private Dijkstra(){}
 
-	public static Map<Cell, Integer> forMaze(Maze maze) {
-		Map<Cell, Integer> m = new HashMap<>();
-		int distance = 0;
-		Deque<Cell> path = new ArrayDeque<>();
-		Set<Cell> visited = new HashSet<>();
-		Cell current = maze.startCell();
-		path.push(current);
-		visited.add(current);
-		m.put(current, distance);
-		while(!path.isEmpty()) {
-			if(visited.containsAll(current.neighbors())) {
-				current = path.pop();
-				distance--;
-			} else {
-				ArrayList<Cell> n = new ArrayList<>(current.connections());
-				n.removeAll(visited);
-				Collections.shuffle(n);
-				if(n.isEmpty()) {
-					current = path.pop();
-					distance--;
+	public static <M extends Maze<C>, C extends Cell<C>> Map<C, Integer> forMaze(M maze) {
+		Map<C, Integer> m = new HashMap<>();
+		Deque<AbstractMap.SimpleImmutableEntry<C, Integer>> todo = new ArrayDeque<>();
+
+		todo.offer(new AbstractMap.SimpleImmutableEntry<>(maze.startCell(), 0));
+
+		while(!todo.isEmpty()) {
+			AbstractMap.SimpleImmutableEntry<C, Integer> current = todo.poll();
+			C curCell = current.getKey();
+			Integer curDist = current.getValue();
+
+			m.put(curCell, curDist);
+
+			ArrayList<C> connections = new ArrayList<>(curCell.connections());
+			for(C neighbor : connections) {
+				if(m.containsKey(neighbor)) {
+					if(m.get(neighbor) > curDist + 1) {
+						todo.offer(new AbstractMap.SimpleImmutableEntry<>(neighbor, curDist + 1));
+					}
 				} else {
-					Cell newCell = n.get(0);
-					distance++;
-					m.put(newCell, distance);
-					path.push(newCell);
-					visited.add(newCell);
-					current = newCell;
+					todo.offer(new AbstractMap.SimpleImmutableEntry<>(neighbor, curDist + 1));
 				}
 			}
 		}
+
 		return m;
 	}
 
