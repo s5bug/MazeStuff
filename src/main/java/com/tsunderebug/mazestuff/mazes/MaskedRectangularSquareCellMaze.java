@@ -20,7 +20,7 @@ public class MaskedRectangularSquareCellMaze extends RectangularSquareCellMaze {
 		for(int x = 0; x < w; x++) {
 			for(int y = 0; y < h; y++) {
 				if(!mask[y][x]) {
-					cells[y][x] = null;
+					cells[x][y] = null;
 				} else {
 					if(startX == -1 || startY == -1) {
 						startX = x;
