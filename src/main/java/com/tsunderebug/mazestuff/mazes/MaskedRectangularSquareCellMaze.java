@@ -15,12 +15,12 @@ public class MaskedRectangularSquareCellMaze extends RectangularSquareCellMaze {
 	protected int startY = -1;
 
 	public MaskedRectangularSquareCellMaze(boolean[][] mask) {
-		super(mask.length, mask[0].length);
+		super(mask[0].length, mask.length);
 		this.mask = mask;
 		for(int x = 0; x < w; x++) {
 			for(int y = 0; y < h; y++) {
-				if(!mask[x][y]) {
-					cells[x][y] = null;
+				if(!mask[y][x]) {
+					cells[y][x] = null;
 				} else {
 					if(startX == -1 || startY == -1) {
 						startX = x;
