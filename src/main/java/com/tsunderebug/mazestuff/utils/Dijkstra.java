@@ -24,12 +24,14 @@ public class Dijkstra {
 
 			ArrayList<C> connections = new ArrayList<>(curCell.connections());
 			for(C neighbor : connections) {
-				if(m.containsKey(neighbor)) {
-					if(m.get(neighbor) > curDist + 1) {
+				if(todo.stream().noneMatch(node -> neighbor.equals(node.getKey()))) {
+					if (m.containsKey(neighbor)) {
+						if (m.get(neighbor) > curDist + 1) {
+							todo.offer(new AbstractMap.SimpleImmutableEntry<>(neighbor, curDist + 1));
+						}
+					} else {
 						todo.offer(new AbstractMap.SimpleImmutableEntry<>(neighbor, curDist + 1));
 					}
-				} else {
-					todo.offer(new AbstractMap.SimpleImmutableEntry<>(neighbor, curDist + 1));
 				}
 			}
 		}
